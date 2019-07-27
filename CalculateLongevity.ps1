@@ -83,3 +83,4 @@ foreach ($key in $specieslist.keys)
     $output= $specieslist.$key.speciesname +":"+ $specieslist.$key.newdate+ ":"+ $specieslist.$key.firstlocation +":" +$specieslist.$key.TimeBetweenCaptures +":"+ $specieslist.$key.ringnumber +":"+ $specieslist.$key.lastseen +":"+ $specieslist.$key.location +":" +"`n"
     out-file -FilePath $reportpath -InputObject $output -Append
 }
+.
