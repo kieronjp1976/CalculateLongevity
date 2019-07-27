@@ -22,7 +22,8 @@ Instructions - Only tested on windows 10.
 3/ Open powershell as an administrator (type powershell into start, right click and choose run as administrator)
 4/ Run "set-executionpolicy remotesigned" and choose Y when prompted
 5/ Change to the directory that you saved the script in  (Type " cd c:\temp")
-6/ Type in .\CalculateLungevity.ps1
+6/ Type in .\CalculateLongevity.ps1
+7/ The output is a text file with ":" as a delimiter - I couldnt use CSV as the place names have commas in them. Use the Text to columns function in excel to get these into a table.
 
 The script will take quite some time to run if the CSV file is large. You may want to run it and come back later.
 
