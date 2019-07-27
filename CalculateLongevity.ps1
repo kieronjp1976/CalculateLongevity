@@ -6,7 +6,7 @@ $NewEncounters= $data | Where-Object {$_.record_type -match "N"}
 $SubsequentEncounters= $data | Where-Object {$_.record_type -match "S"}
 
 
-class Bird
+class Bird  //Create a new object called bird with the properties below
 {
 [string]$SpeciesName
 [string]$NewDate
@@ -20,6 +20,7 @@ class Bird
 #####################################################################################################
 
 # This loops through the records and takes out individual species names and put them in the HT specieslist
+
 $specieslist=@{} 
 foreach ($record in $SubsequentEncounters) # Loop through the records#
     {
@@ -31,8 +32,6 @@ foreach ($record in $SubsequentEncounters) # Loop through the records#
         }   
     }
 #############################################################################################################
-
-#$b=@($specieslist).Keys  # i had to copy the hashtable to a new variable so that we arent modifyint he array that we ar elooppig through
 
 
 foreach ($record in $SubsequentEncounters)
