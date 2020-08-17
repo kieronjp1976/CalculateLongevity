@@ -1,4 +1,5 @@
 $file="C:\temp\export.csv"
+$fromvs = 1
 $reportpath="c:\temp\report.csv"
 $data = import-csv $file | Select-Object record_type, species_name, ring_no, visit_date, location_name
 
@@ -83,4 +84,4 @@ foreach ($key in $specieslist.keys)
     $output= $specieslist.$key.speciesname +":"+ $specieslist.$key.newdate+ ":"+ $specieslist.$key.firstlocation +":" +$specieslist.$key.TimeBetweenCaptures +":"+ $specieslist.$key.ringnumber +":"+ $specieslist.$key.lastseen +":"+ $specieslist.$key.location +":" +"`n"
     out-file -FilePath $reportpath -InputObject $output -Append
 }
-.
+
