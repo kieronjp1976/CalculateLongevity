@@ -1,5 +1,4 @@
 $file="C:\temp\export.csv"
-$fromvs = 12
 $reportpath="c:\temp\report.csv"
 $data = import-csv $file | Select-Object record_type, species_name, ring_no, visit_date, location_name
 
