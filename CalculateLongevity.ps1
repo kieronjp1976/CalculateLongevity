@@ -6,8 +6,7 @@ $NewEncounters= $data | Where-Object {$_.record_type -match "N"}
 $SubsequentEncounters= $data | Where-Object {$_.record_type -match "S"}
 
 
-class Bird  //Create a new object called bird with the properties below
-{
+class Bird{  ##Create a new object called bird with the properties below
 [string]$SpeciesName
 [string]$NewDate
 [string]$firstlocation
@@ -50,7 +49,7 @@ foreach ($record in $SubsequentEncounters)
             }
         }
         
-        if ($datenew -eq $null ) # For controls or sites with no N entry (Like Stoneacre)
+        if (!$datenew) # For controls or sites with no N entry (Like Stoneacre)
         {
           continue
         }
