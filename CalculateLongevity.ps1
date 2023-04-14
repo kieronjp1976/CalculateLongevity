@@ -1,4 +1,5 @@
-$file="C:\temp\export.csv"
+$StartMS=(Get-Date).Millisecond
+$file="C:\Users\Kieron Palmer\Documents\repos\Ringing-CalculateLongevity\combined.csv"
 $reportpath="c:\temp\report.csv"
 $data = import-csv $file | Select-Object record_type, species_name, ring_no, visit_date, location_name
 
@@ -46,6 +47,7 @@ foreach ($record in $SubsequentEncounters)
             {
                $datenew=$encounter.visit_date
                $firstlocation=$encounter.location_name
+               # There is only ever one new encounter so we dont need to calcuate the time betwen captures at this point
             }
         }
         
@@ -82,4 +84,5 @@ foreach ($key in $specieslist.keys)
     $output= $specieslist.$key.speciesname +":"+ $specieslist.$key.newdate+ ":"+ $specieslist.$key.firstlocation +":" +$specieslist.$key.TimeBetweenCaptures +":"+ $specieslist.$key.ringnumber +":"+ $specieslist.$key.lastseen +":"+ $specieslist.$key.location +":" +"`n"
     out-file -FilePath $reportpath -InputObject $output -Append
 }
-
+$EndMS=(Get-Date).Millisecond
+Write-host "This Script took $($EndMS-$StartMS) milliseconds to run"
