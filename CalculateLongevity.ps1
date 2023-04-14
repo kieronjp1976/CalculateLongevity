@@ -1,6 +1,12 @@
-$StartMS=(Get-Date).Millisecond
+$StartMS=(get-date).timeofday.totalseconds
 $file="C:\Users\Kieron Palmer\Documents\repos\Ringing-CalculateLongevity\combined.csv"
+
 $reportpath="c:\temp\report.csv"
+$FileCheck=Test-Path $reportpath
+if ($FileCheck -eq $true)
+{
+    Remove-Item $reportpath
+}
 $data = import-csv $file | Select-Object record_type, species_name, ring_no, visit_date, location_name
 
 $NewEncounters= $data | Where-Object {$_.record_type -match "N"} 
@@ -22,21 +28,27 @@ class Bird{  ##Create a new object called bird with the properties below
 # This loops through the records and takes out individual species names and put them in the HT specieslist
 
 $specieslist=@{} 
-foreach ($record in $SubsequentEncounters) # Loop through the records#
-    {
-    if ($specieslist.keys -notcontains $record.species_name) # If hash table doesnt contain a species.....
-        {
-       $specieslist.add($record.species_name, (new-object bird))  # Add the species to the hash table as a key 
-        $specieslist.($record.species_name).speciesname = $record.species_name
-        $specieslist.($record.species_name).TimeBetweenCaptures = 0
-        }   
-    }
+#foreach ($record in $SubsequentEncounters) # Loop through the records#
+   # {
+  # if ($specieslist.keys -notcontains $record.species_name) # If hash table doesnt contain a species.....
+   #    {
+   #    $specieslist.add($record.species_name, (new-object bird))  # Add the species to the hash table as a key 
+   #     $specieslist.($record.species_name).speciesname = $record.species_name
+    #    $specieslist.($record.species_name).TimeBetweenCaptures = 0
+    #    }   
+   #}
+   
 #############################################################################################################
 
-
+# Adding the above loop into this loop to reduce the number of time I need to scan all of the records as it is so slow
 foreach ($record in $SubsequentEncounters)
 {
-
+    if ($specieslist.keys -notcontains $record.species_name) # If hash table doesnt contain a species.....
+         {
+         $specieslist.add($record.species_name, (new-object bird))  # Add the species to the hash table as a key 
+          $specieslist.($record.species_name).speciesname = $record.species_name
+          $specieslist.($record.species_name).TimeBetweenCaptures = 0
+           } 
         
 
         #$DateNew=($NewEncounters.Where({$_.ring_no -match $record.ring_no})).visit_date
@@ -78,11 +90,12 @@ Clear-Variable -name daterange
     
 }
 
+
 foreach ($key in $specieslist.keys)
 {
     
     $output= $specieslist.$key.speciesname +":"+ $specieslist.$key.newdate+ ":"+ $specieslist.$key.firstlocation +":" +$specieslist.$key.TimeBetweenCaptures +":"+ $specieslist.$key.ringnumber +":"+ $specieslist.$key.lastseen +":"+ $specieslist.$key.location +":" +"`n"
     out-file -FilePath $reportpath -InputObject $output -Append
 }
-$EndMS=(Get-Date).Millisecond
-Write-host "This Script took $($EndMS-$StartMS) milliseconds to run"
+$EndMS=(get-date).timeofday.totalseconds
+Write-host "This Script took $($EndMS-$StartMS) ticks to run"
