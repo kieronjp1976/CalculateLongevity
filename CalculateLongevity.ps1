@@ -44,22 +44,21 @@ $specieslist=@{}
 foreach ($record in $SubsequentEncounters)
 {
     if ($specieslist.keys -notcontains $record.species_name) # If hash table doesnt contain a species.....
-         {
-         $specieslist.add($record.species_name, (new-object bird))  # Add the species to the hash table as a key 
-          $specieslist.($record.species_name).speciesname = $record.species_name
-          $specieslist.($record.species_name).TimeBetweenCaptures = 0
-           } 
+        {
+        $specieslist.add($record.species_name, (new-object Bird))  # Add the species to the hash table as a key 
+        $specieslist.($record.species_name).speciesname = $record.species_name
+        $specieslist.($record.species_name).TimeBetweenCaptures = 0
+        } 
         
 
-        #$DateNew=($NewEncounters.Where({$_.ring_no -match $record.ring_no})).visit_date
-        foreach($encounter in $newencounters) # This is MUCH faster than theline above
+        
+        #foreach($encounter in $newencounters) 
+        $NewEncounters | foreach-object
         {
-            
-            if ($encounter.ring_no -match $record.ring_no)
+            if ($_.ring_no -match $record.ring_no)
             {
-               $datenew=$encounter.visit_date
-               $firstlocation=$encounter.location_name
-               # There is only ever one new encounter so we dont need to calcuate the time betwen captures at this point
+            $DateNew=$_.visit_date
+            $firstlocation=$_.location_name
             }
         }
         
